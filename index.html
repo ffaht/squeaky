@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squeaky Feet - Setlists & Jams</title>
+<style>
+:root {
+  --bg-color:#000;
+  --card-bg:#111;
+  --text-color:#f0f0f0;
+  --muted-color:#999;
+  --border-color:#222;
+  --accent-color:#4dd9de; /* Seafoam green from logo */
+  --accent-hover:#5ce1e6;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg-color);color:var(--text-color);min-height:100vh;}
+.container{max-width:1200px;margin:0 auto;padding:0;}
+.site-header{text-align:center;padding:0rem 0;margin-bottom:0rem;}
+.site-header h1{font-size:2.5rem;margin-bottom:0.5rem;cursor:pointer;}
+.site-header p{color:var(--muted-color);cursor:pointer;}
+.site-disclaimer{font-size:0.85rem;font-style:italic;margin-top:0.5rem;}
+.search-container{display:flex;gap:1rem;margin-bottom:2rem;align-items:center;}
+#search-input{flex:1;padding:0.75rem;border-radius:8px;border:1px solid var(--border-color);background:var(--card-bg);color:var(--text-color);font-size:1rem;}
+#filter-select{padding:0.75rem;border-radius:8px;border:1px solid var(--border-color);background:var(--card-bg);color:var(--text-color);}
+.jam-table-container{background:var(--card-bg);border-radius:8px;border:1px solid var(--border-color);overflow-x:auto;}
+.jam-table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+.jam-table th:first-child,
+.jam-table td:first-child{width:95px;min-width:95px;white-space:nowrap;}
+.jam-table th{background:#0a0a0a;color:var(--text-color);font-weight:600;padding:1rem 0.75rem;text-align:left;border-bottom:2px solid var(--border-color);cursor:pointer;user-select:none;}
+.jam-table th:hover{background:#151515;}
+.jam-table td{padding:0.75rem;border-bottom:1px solid var(--border-color);line-height:1.4;vertical-align:top;}
+.jam-table tr:hover{background:rgba(255,255,255,0.02);}
+.jam-entry{cursor:pointer;color:var(--accent-color);}
+.jam-entry.highlighted{font-weight:bold;}
+.highlighted-row{border-left:4px solid var(--accent-color);}
+.selected-row{box-shadow:0 0 0 2px var(--accent-color);}
+.clickable-filter{cursor:pointer;transition:all 0.2s ease;color:var(--accent-color);}
+.clickable-filter:hover{text-decoration:underline;color:var(--accent-hover);}
+
+/* Tab Navigation */
+.tab-nav{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.tab-button{padding:0.6rem 1.2rem;border-radius:6px;border:1px solid var(--border-color);background:var(--card-bg);color:var(--text-color);cursor:pointer;transition:all 0.2s;font-size:0.9rem;}
+.tab-button:hover{background:#1a1a1a;}
+.tab-button.active{background:#2a2a2a;border-color:var(--accent-color);font-weight:600;}
+.page-content{display:block;}
+
+/* Tooltip styles */
+.jam-song-tooltip {
+  position: absolute;
+  background: var(--card-bg);
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  z-index: 1000;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.jam-song-tooltip.show {
+  opacity: 1;
+}
+
+.jam-song-tooltip-timing {
+  color: var(--accent-color);
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.jam-song-tooltip-notes {
+  color: var(--text-color);
+}
+
+.jam-song {
+  color: var(--accent-color) !important;
+  cursor: pointer;
+}
+
+.jam-song.highlighted {
+  font-weight: bold !important;
+}
+
+.clickable-song {
+  cursor: pointer;
+}
+
+.clickable-song:hover {
+  background-color: rgba(77, 217, 222, 0.15);
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.date-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text-color) !important;
+}
+
+.date-link:hover {
+  color: var(--accent-color) !important;
+}
+
+.btn-search{padding:0.75rem 1.5rem;border-radius:6px;border:none;background:var(--accent-color);color:#000;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-search:hover{background:var(--accent-hover);}
+
+@media(max-width:768px){.container{padding:15px;}.site-header h1{font-size:2rem;}}
+</style>
+</head>
+<body>
+<header class="site-header">
+<div class="container">
+<h1>Squeaky Feet</h1>
+<p>🎸 🎹 🥁 🎤</p>
+<p class="site-disclaimer">Personal fan project - some setlists may be incomplete</p>
+<div class="tab-nav" style="margin-top:0.5rem;justify-content:center;">
+<button class="tab-button page-tab active" onclick="switchPage('setlist')">Latest Setlist</button>
+<button class="tab-button page-tab" onclick="switchPage('jams')">Jam Chart</button>
+</div>
+</div>
+</header>
+<main class="container">
+
+<!-- LATEST SETLIST PAGE -->
+<div id="page-setlist" class="page-content">
+  <div id="latest-setlist-container"></div>
+</div>
+
+<!-- JAM CHART PAGE -->
+<div id="page-jams" class="page-content" style="display:none;">
+<div class="search-container">
+<input type="text" id="search-input" placeholder="Search songs, locations, dates..." onkeyup="renderFilteredJams()">
+<select id="filter-select" onchange="renderFilteredJams()">
+  <option value="all">All Jams</option>
+  <option value="highlighted">Highlighted</option>
+</select>
+</div>
+<div class="jam-table-container">
+<table class="jam-table">
+<thead>
+<tr>
+<th onclick="sortTable('date')">Date <span id="date-sort">▼</span></th>
+<th onclick="sortTable('song')">Song <span id="song-sort"></span></th>
+<th onclick="sortTable('timing')">Timing <span id="timing-sort"></span></th>
+<th onclick="sortTable('venue')">Location <span id="venue-sort"></span></th>
+<th onclick="sortTable('notes')">Notes <span id="notes-sort"></span></th>
+</tr>
+</thead>
+<tbody id="jam-table-body"></tbody>
+</table>
+</div>
+</div>
+
+</main>
+<script>
+// ============================================
+// GLOBAL VARIABLES
+// ============================================
+let allJams = [];
+let dbShows = {};
+let dbDates = [];
+let currentSort = {column:'date',direction:'desc'};
+const tableBody = document.getElementById('jam-table-body');
+
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
+
+// Normalize song names for matching
+function normalizeSongName(s) {
+  if (!s) return "";
+  s = s.trim();
+  
+  // Normalize Unicode punctuation → ASCII
+  s = s
+    .normalize("NFKD")
+    .replace(/[''‚›]/g, "'")
+    .replace(/[""„‟]/g, '"')
+    .replace(/[‐‑‒–—―]/g, "-")
+    .replace(/\s+/g, " ");
+  
+  // Clean general junk and lowercase
+  s = s
+    .replace(/\s*\[\s*\d+[\d:]*\s*\]\s*/g, "")
+    .replace(/\s*\(\s*[\d:\-]+\s*\)\s*/g, "")
+    .replace(/[|]+/g, " ")
+    .replace(/[^\w\s,()'-]/g, "")
+    .replace(/'/g, "")
+    .replace(/\s+/g, " ")
+    .toLowerCase()
+    .trim();
+  
+  return s;
+}
+
+// Format date for display (MM-DD-YYYY)
+function formatDateForDisplay(dateStr) {
+  if (!dateStr) return '';
+  try {
+    let month, day, year;
+    
+    if (dateStr.includes('-') && dateStr.split('-')[0].length === 4) {
+      [year, month, day] = dateStr.split('-').map(Number);
+    } 
+    else if (dateStr.includes('/')) {
+      [month, day, year] = dateStr.split('/').map(Number);
+    }
+    else {
+      return dateStr;
+    }
+    
+    const monthStr = month.toString().padStart(2, '0');
+    const dayStr = day.toString().padStart(2, '0');
+    return `${monthStr}-${dayStr}-${year}`;
+  } catch {
+    return dateStr;
+  }
+}
+
+// Clean markdown formatting
+function cleanMarkdown(text) {
+  if (!text) return '';
+  
+  return text
+    .replace(/\*\*/g, '')
+    .replace(/\*/g, '')
+    .replace(/__/g, '')
+    .replace(/~~/g, '')
+    .replace(/`/g, '')
+    .replace(/\[\[|\]\]/g, '');
+}
+
+// Convert markdown to HTML
+function markdownToHtml(text) {
+  if (!text) return '';
+  
+  const paragraphs = text.split(/\n\n+/);
+  
+  const formattedParagraphs = paragraphs.map(paragraph => {
+    paragraph = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    paragraph = paragraph.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    paragraph = paragraph.replace(/\n/g, '<br>');
+    return paragraph;
+  });
+  
+  return formattedParagraphs.map((paragraph, index) => {
+    if (index === 0) {
+      return `<div style="font-style: italic; margin-bottom: 1rem;">${paragraph}</div>`;
+    } else {
+      return `<div style="margin-bottom: 1rem;">${paragraph}</div>`;
+    }
+  }).join('');
+}
+
+// Parse setlist string into song array
+function parseDbSetlist(str) {
+  if (!str || typeof str !== 'string') return [];
+  
+  str = str.trim();
+  if (!str) return [];
+  
+  // Clean markdown but preserve timing numbers
+  str = cleanMarkdown(str);
+  str = str.replace(/\s+/g, ' ');
+  
+  // Split on arrows and commas
+  const tempParts = str.split(/(->|>|,)/);
+  const songs = [];
+  let currentSong = '';
+  
+  tempParts.forEach(part => {
+    part = part.trim();
+    if (!part) return;
+    
+    if (part === '->' || part === '>' || part === ',') {
+      if (currentSong.trim()) {
+        songs.push(currentSong.trim());
+        currentSong = '';
+      }
+    } else {
+      if (currentSong) {
+        currentSong += ' ' + part;
+      } else {
+        currentSong = part;
+      }
+      
+      const hasTiming = /\(\d+\)$/.test(part);
+      if (hasTiming) {
+        songs.push(currentSong.trim());
+        currentSong = '';
+      }
+    }
+  });
+  
+  if (currentSong.trim()) {
+    songs.push(currentSong.trim());
+  }
+  
+  // Filter and clean
+  const filteredSongs = songs
+    .filter(s => s && /[a-z]/i.test(s))
+    .filter(s => !/^set\s*\d*$/i.test(s))
+    .filter(s => s.toLowerCase() !== 'unknown')
+    .map(s => s.trim());
+  
+  return filteredSongs;
+}
+// ============================================
+// JAM CHART FUNCTIONS
+// ============================================
+
+function loadJams(){
+  console.log('Loading jams.json...');
+  fetch('jams.json')
+  .then(r=>{
+    console.log('Jams response:', r.status);
+    return r.json();
+  })
+  .then(data=>{
+    console.log('Jams loaded:', data.length, 'entries');
+    
+    const processedJams = [];
+    
+    data.forEach(entry => {
+      entry.date = entry.date||'';
+      entry.song = entry.song||'';
+      entry.timing = entry.timing||'';
+      entry.venue = entry.venue||'';
+      entry.notes = entry.notes||'';
+      entry.highlighted = !!entry.highlighted;
+      
+      // Try to find this jam in the setlist to get its position
+      let setOrder = 99;
+      let positionInSet = 999;
+      
+      // Convert date to match database format if needed
+      const dbDate = entry.date.includes('-') && entry.date.split('-')[0].length === 4 
+        ? entry.date 
+        : (() => {
+            const [month, day, year] = entry.date.split('-');
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+          })();
+      
+      if (dbShows[dbDate]) {
+        const show = dbShows[dbDate];
+        const sets = show.sets || {};
+        
+        const setEntries = Object.entries(sets);
+        
+        // Sort sets by set name
+        setEntries.sort((a, b) => {
+          const getSetNumber = (setName) => {
+            setName = setName.toLowerCase();
+            if (setName.includes('set1') || setName === '1' || setName === 'set 1') return 1;
+            if (setName.includes('set2') || setName === '2' || setName === 'set 2') return 2;
+            if (setName.includes('set3') || setName === '3' || setName === 'set 3') return 3;
+            if (setName.includes('encore')) return 4;
+            if (setName.includes('set')) {
+              const match = setName.match(/set\s*(\d+)/i);
+              return match ? parseInt(match[1]) : 99;
+            }
+            return 99;
+          };
+          
+          return getSetNumber(a[0]) - getSetNumber(b[0]);
+        });
+        
+        // Search through sets
+        let found = false;
+        const jamSongNorm = normalizeSongName(entry.song);
+        const jamTiming = entry.timing ? entry.timing.match(/(\d+):/)?.[1] : null;
+        
+        for (const [setName, setContent] of setEntries) {
+          const songs = parseDbSetlist(setContent);
+          
+          for (let songIndex = 0; songIndex < songs.length; songIndex++) {
+            const setlistSong = songs[songIndex];
+            const setlistSongNorm = normalizeSongName(setlistSong);
+            const setlistTiming = setlistSong.match(/\((\d+)\)/)?.[1];
+            
+            if (setlistSongNorm === jamSongNorm) {
+              if (jamTiming && setlistTiming) {
+                if (Math.abs(parseInt(jamTiming) - parseInt(setlistTiming)) > 2) {
+                  continue;
+                }
+              }
+              
+              found = true;
+              
+              // Standardize set order
+              if (setName.toLowerCase().includes('set1') || setName === '1' || setName === 'Set 1') setOrder = 1;
+              else if (setName.toLowerCase().includes('set2') || setName === '2' || setName === 'Set 2') setOrder = 2;
+              else if (setName.toLowerCase().includes('set3') || setName === '3' || setName === 'Set 3') setOrder = 3;
+              else if (setName.toLowerCase().includes('encore')) setOrder = 4;
+              else if (setName.toLowerCase().includes('set')) {
+                const match = setName.toLowerCase().match(/set\s*(\d+)/);
+                setOrder = match ? parseInt(match[1]) : 99;
+              }
+              
+              positionInSet = songIndex;
+              break;
+            }
+          }
+          if (found) break;
+        }
+      }
+      
+      entry.setOrder = setOrder;
+      entry.positionInSet = positionInSet;
+      entry.dbDate = dbDate;
+      
+      // Look up location from shows database
+      let locationText = entry.venue;
+      try {
+        if (dbShows[dbDate]) {
+          const show = dbShows[dbDate];
+          locationText = `${show.city || 'Unknown'}, ${show.state || ''}`.trim();
+          if (locationText.endsWith(',')) locationText = locationText.slice(0, -1);
+        }
+      } catch (e) {
+        console.log('Error getting location for', entry.date, e);
+      }
+      
+      const tr = document.createElement('tr');
+      if(entry.highlighted) tr.classList.add('highlighted-row');
+      const songSpan = document.createElement('span');
+      songSpan.textContent = entry.song;
+      songSpan.className = 'jam-entry' + (entry.highlighted?' highlighted':'');
+      songSpan.classList.add('clickable-filter');
+      
+      tr.innerHTML = `
+        <td><span class="date-link" data-date="${entry.date}" style="cursor: pointer; color: var(--text-color);">${formatDateForDisplay(entry.date)}</span></td>
+        <td></td>
+        <td>${entry.timing}</td>
+        <td><span class="clickable-filter">${locationText}</span></td>
+        <td>${entry.notes}</td>
+      `;
+      tr.children[1].appendChild(songSpan);
+      entry.element = tr;
+      processedJams.push(entry);
+    });
+    
+    allJams = processedJams;
+    
+    // Force descending sort
+    currentSort = {column:'date', direction:'asc'};
+    tableBody.parentElement.parentElement.style.visibility = 'hidden';
+    
+    sortTable('date');
+    
+    setTimeout(() => {
+      tableBody.parentElement.parentElement.style.visibility = 'visible';
+      showLatestSetlist();
+    }, 0);
+  })
+  .catch(err=>{
+    console.error("Failed to load jams.json:",err);
+    tableBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--muted-color);padding:2rem;">Failed to load jams.json</td></tr>';
+  });
+}
+
+function renderFilteredJams(){
+  const searchTerm = document.getElementById('search-input').value.toLowerCase();
+  const filterVal = document.getElementById('filter-select').value;
+
+  const filtered = allJams.filter(j=>{
+    if(filterVal==='highlighted' && !j.highlighted) return false;
+    if(!searchTerm) return true;
+    
+    let locationText = j.venue;
+    try {
+      const dbDate = j.dbDate || (j.date.includes('-') && j.date.split('-')[0].length === 4 
+        ? j.date 
+        : (() => {
+            const [month, day, year] = j.date.split('-');
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+          })());
+      
+      if (dbShows[dbDate]) {
+        const show = dbShows[dbDate];
+        locationText = `${show.city || 'Unknown'}, ${show.state || ''}`.trim();
+        if (locationText.endsWith(',')) locationText = locationText.slice(0, -1);
+      }
+    } catch (e) {
+      console.log('Error getting location for search:', j.date, e);
+    }
+    
+    return j.song.toLowerCase().includes(searchTerm) ||
+           locationText.toLowerCase().includes(searchTerm) ||
+           j.date.includes(searchTerm) ||
+           j.notes.toLowerCase().includes(searchTerm);
+  });
+
+  const frag = document.createDocumentFragment();
+  filtered.forEach(j=>frag.appendChild(j.element));
+  tableBody.innerHTML='';
+  tableBody.appendChild(frag);
+
+  if(filtered.length===0)
+    tableBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--muted-color);padding:2rem;">No jams found matching your criteria.</td></tr>';
+}
+
+function sortTable(column){
+  if(!allJams.length) return;
+  if(currentSort.column===column) currentSort.direction = currentSort.direction==='asc'?'desc':'asc';
+  else {currentSort.column=column; currentSort.direction='asc';}
+
+  allJams.sort((a,b)=>{
+    let va=a[column], vb=b[column];
+    
+    if(column==='date'){
+      const parseDate = (dateStr) => {
+        try {
+          if (dateStr.includes('-')) {
+            return new Date(dateStr).getTime();
+          }
+          const [m,d,y] = dateStr.split('/').map(Number);
+          return new Date(y,m-1,d).getTime();
+        } catch {
+          return 0;
+        }
+      };
+      va = parseDate(va);
+      vb = parseDate(vb);
+      
+      // If dates are equal, sort by set order and position
+      if (va === vb) {
+        if (a.setOrder !== b.setOrder) {
+          return a.setOrder - b.setOrder;
+        }
+        if (a.positionInSet !== b.positionInSet) {
+          return a.positionInSet - b.positionInSet;
+        }
+        return 0;
+      }
+    } else if(column==='timing'){
+      const parseTime = (timeStr) => {
+        if (!timeStr || typeof timeStr !== 'string') return 0;
+        const parts = timeStr.split(':');
+        const minutes = parseInt(parts[0]) || 0;
+        const seconds = parseInt(parts[1]) || 0;
+        return minutes * 60 + seconds;
+      };
+      va = parseTime(va);
+      vb = parseTime(vb);
+    } else {
+      va = va.toString().toLowerCase(); 
+      vb = vb.toString().toLowerCase();
+    }
+    
+    return currentSort.direction==='asc'? (va<vb?-1:va>vb?1:0) : (va<vb?1:va>vb?-1:0);
+  });
+
+  document.querySelectorAll('[id$="-sort"]').forEach(ind=>ind.textContent='');
+  const curr=document.getElementById(currentSort.column+'-sort');
+  if(curr) curr.textContent=currentSort.direction==='asc'?'▲':'▼';
+  
+  renderFilteredJams();
+}
+// ============================================
+// SETLIST DISPLAY FUNCTIONS
+// ============================================
+
+// Make songs in setlist clickable
+function makeAllSongsClickable(rawSetString, jamEntries) {
+  if (!rawSetString) return '';
+  
+  const cleanedString = cleanMarkdown(rawSetString);
+  
+  // Pre-process: Build list of songs with normalized names
+  const tokens = cleanedString.split(/(\s*->\s*|\s*>\s*|\s*,\s*)/g);
+  const songList = [];
+  
+  for (let token of tokens) {
+    if (/^\s*(->|>|,)\s*$/.test(token)) continue;
+    
+    const timingMatch = token.match(/\((\d+)\)\s*$/);
+    const timingNumber = timingMatch ? parseInt(timingMatch[1]) : null;
+    const songOnly = timingMatch ? token.slice(0, token.lastIndexOf(timingMatch[0])) : token;
+    
+    const normalized = normalizeSongName(songOnly);
+    songList.push({ normalized, timingNumber });
+  }
+  
+  // Map jam entries to occurrences
+  const jamEntryMap = new Map();
+  
+  jamEntries.forEach(jam => {
+    const jamNorm = normalizeSongName(jam.song);
+    const jamTimingMatch = (jam.timing || '').match(/(\d+):/);
+    const jamMinutes = jamTimingMatch ? parseInt(jamTimingMatch[1]) : null;
+    
+    let occurrenceIndex = 0;
+    for (let i = 0; i < songList.length; i++) {
+      if (songList[i].normalized === jamNorm) {
+        const setlistTiming = songList[i].timingNumber;
+        const mapKey = `${jamNorm}_${occurrenceIndex}`;
+        
+        if (!jamEntryMap.has(mapKey)) {
+          if (setlistTiming && jamMinutes && Math.abs(setlistTiming - jamMinutes) <= 2) {
+            jamEntryMap.set(mapKey, jam);
+            break;
+          }
+        }
+        
+        occurrenceIndex++;
+      }
+    }
+  });
+  
+  // Render with mapped jam entries
+  let output = '';
+  let songOccurrences = {};
+  
+  for (let token of tokens) {
+    if (/^\s*(->|>|,)\s*$/.test(token)) {
+      output += token;
+      continue;
+    }
+    
+    const timingMatch = token.match(/\((\d+)\)\s*$/);
+    const timingNumber = timingMatch ? parseInt(timingMatch[1]) : null;
+    const songOnly = timingMatch
+      ? token.slice(0, token.lastIndexOf(timingMatch[0]))
+      : token;
+    
+    const normalized = normalizeSongName(songOnly);
+    
+    if (!songOccurrences[normalized]) {
+      songOccurrences[normalized] = 0;
+    }
+    const currentOccurrence = songOccurrences[normalized];
+    songOccurrences[normalized]++;
+    
+    const mapKey = `${normalized}_${currentOccurrence}`;
+    const matchedJam = jamEntryMap.get(mapKey);
+    const safeSong = songOnly.replace(/"/g, '&quot;');
+    
+    if (matchedJam) {
+      output += token.replace(
+        songOnly.trim(),
+        `<span class="clickable-song jam-song" data-song="${safeSong}" data-timing="${timingNumber || ''}" data-jam="true">${songOnly.trim()}</span>`
+      );
+    } else {
+      output += token.replace(
+        songOnly.trim(),
+        `<span class="clickable-song" data-song="${safeSong}" data-timing="${timingNumber || ''}" data-jam="false">${songOnly.trim()}</span>`
+      );
+    }
+  }
+  
+  return output;
+}
+
+// Setup song clicks and tooltips
+function setupSongClicksAndTooltips(jamEntries, containerSelector = null) {
+  setTimeout(() => {
+    let currentTooltip = null;
+    const container = containerSelector ? document.getElementById(containerSelector) : document;
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    const removeTooltip = () => {
+      if (currentTooltip) {
+        currentTooltip.remove();
+        currentTooltip = null;
+      }
+    };
+
+    const showTooltip = (songElement, jamEntry) => {
+      removeTooltip();
+      const tooltip = document.createElement("div");
+      tooltip.className = "jam-song-tooltip show";
+      tooltip.dataset.song = songElement.dataset.song;
+
+      tooltip.innerHTML = `
+        ${jamEntry.timing ? `<div class="jam-song-tooltip-timing">${jamEntry.timing}</div>` : ""}
+        ${jamEntry.notes ? `<div class="jam-song-tooltip-notes">${jamEntry.notes}</div>` : ""}
+      `;
+      document.body.appendChild(tooltip);
+
+      const rect = songElement.getBoundingClientRect();
+      const tw = tooltip.offsetWidth;
+      const th = tooltip.offsetHeight;
+      let top = rect.bottom + 8;
+      let left = rect.left + rect.width / 2 - tw / 2;
+      if (left < 8) left = 8;
+      if (left + tw > window.innerWidth - 8) left = window.innerWidth - tw - 8;
+      if (top + th > window.innerHeight - 8) top = rect.top - th - 8;
+
+      tooltip.style.top = `${top}px`;
+      tooltip.style.left = `${left}px`;
+      currentTooltip = tooltip;
+    };
+
+    document.addEventListener("click", e => {
+      if (!e.target.closest(".jam-song") && !e.target.closest(".jam-song-tooltip")) {
+        removeTooltip();
+      }
+    });
+    document.addEventListener("touchstart", e => {
+      if (!e.target.closest(".jam-song") && !e.target.closest(".jam-song-tooltip")) {
+        removeTooltip();
+      }
+    }, { passive: true });
+
+    container.querySelectorAll(".clickable-song").forEach(songElement => {
+      const songName = songElement.dataset.song?.trim();
+      const isJamCharted = songElement.dataset.jam === "true";
+      const matchingEntry = isJamCharted
+        ? jamEntries.find(j => normalizeSongName(j.song) === normalizeSongName(songName))
+        : null;
+
+      songElement.style.cursor = "pointer";
+      songElement.style.color = isJamCharted ? "var(--accent-color)" : "var(--text-color)";
+      songElement.style.userSelect = "none";
+      songElement.style.webkitTapHighlightColor = "transparent";
+
+      songElement.addEventListener("click", e => {
+        e.stopPropagation();
+
+        if (isTouchDevice && isJamCharted && matchingEntry) {
+          if (currentTooltip && currentTooltip.dataset.song === songElement.dataset.song) {
+            removeTooltip();
+          } else {
+            showTooltip(songElement, matchingEntry);
+          }
+          return;
+        }
+
+        if (isJamCharted) {
+          switchPage('jams');
+          document.getElementById("search-input").value = songName;
+          renderFilteredJams();
+        }
+      });
+    });
+  }, 0);
+}
+// Show setlist for a specific date
+function showSetlistForDate(date) {
+  // Convert date format if needed (MM-DD-YYYY to YYYY-MM-DD)
+  let dbDate;
+  if (date.includes('-') && date.split('-')[0].length === 4) {
+    dbDate = date;
+  } else {
+    const [month, day, year] = date.split('-');
+    dbDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+  
+  console.log('Looking for show with dbDate:', dbDate);
+  
+  const show = dbShows[dbDate];
+  if (!show) {
+    console.log('No show data found for:', dbDate);
+    alert(`No setlist data found for ${date}`);
+    return;
+  }
+  
+  console.log('Found show data:', show);
+  
+  // Get jam data for this date
+  const jamEntries = allJams.filter(jam => {
+    const jamDbDate = jam.dbDate || (jam.date.includes('-') && jam.date.split('-')[0].length === 4 
+      ? jam.date 
+      : (() => {
+          const [m, d, y] = jam.date.split('-');
+          return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+        })());
+    return jamDbDate === dbDate;
+  });
+  
+  console.log(`Jam entries for ${dbDate}:`, jamEntries);
+  
+  // Find previous and next shows
+  const allDates = Object.keys(dbShows).filter(d => d.match(/^\d{4}-\d{2}-\d{2}/)).sort();
+  const currentIndex = allDates.indexOf(dbDate);
+  const prevDate = currentIndex > 0 ? allDates[currentIndex - 1] : null;
+  const nextDate = currentIndex < allDates.length - 1 ? allDates[currentIndex + 1] : null;
+  
+  // Format date for display
+  const [year, month, day] = dbDate.split('-').map(Number);
+  const displayDate = new Date(year, month - 1, day).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+  
+  const cleanRating = show.rating ? cleanMarkdown(show.rating) : '';
+  
+  // Build setlist content
+  let content = `
+    <div style="margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div style="display: flex; gap: 0.5rem;">
+          ${prevDate ? `<button onclick="showSetlistForDate('${prevDate}')" style="padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); cursor: pointer;">← Previous</button>` : '<button disabled style="padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--muted-color); cursor: not-allowed;">← Previous</button>'}
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem;">
+          <button onclick="showRandomSetlist()" style="padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); cursor: pointer;">🎲 Random</button>
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem;">
+          ${nextDate ? `<button onclick="showSetlistForDate('${nextDate}')" style="padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); cursor: pointer;">Next →</button>` : '<button disabled style="padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--muted-color); cursor: not-allowed;">Next →</button>'}
+        </div>
+      </div>
+    </div>
+    
+    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; max-width: 700px; margin: 0 auto;">
+      <div style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+        <h1 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem; text-align: left;">${displayDate}</h1>
+        <div style="font-size: 1.1rem; margin-bottom: 0.3rem; text-align: left;">${show.venue}</div>
+        <div style="color: var(--muted-color); font-size: 0.95rem; text-align: left; margin-bottom: 0.3rem;">${show.city}, ${show.state}</div>
+        ${show.tour || show.show_number ? `<div style="color: var(--muted-color); font-size: 0.9rem; text-align: left;">${show.tour ? show.tour : ''}${show.tour && show.show_number ? ' • ' : ''}${show.show_number ? `Show #${show.show_number}` : ''}</div>` : ''}
+        ${cleanRating && cleanRating !== 'tags:' ? `<div style="font-size: 0.95rem; margin-top: 0.5rem;">★ ${cleanRating}</div>` : ''}
+      </div>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <div style="line-height: 1.6; color: var(--text-color); font-size: 0.95rem;">
+  `;
+  
+  // Process each set
+  if (show.sets && Object.keys(show.sets).length > 0) {
+    console.log('Available sets:', Object.keys(show.sets));
+    
+    const setOrder = ['Set 1', 'Set 2', 'Set 3', 'Encore'];
+    
+    setOrder.forEach(setName => {
+      if (show.sets[setName]) {
+        console.log(`Processing ${setName}:`, show.sets[setName]);
+        const processedContent = makeAllSongsClickable(show.sets[setName], jamEntries);
+        content += `<div style="margin-bottom: 0.75rem;"><strong>${setName}:</strong> ${processedContent}</div>`;
+      }
+    });
+    
+    // Check for any other set names
+    Object.keys(show.sets).forEach(setName => {
+      if (!setOrder.includes(setName)) {
+        const processedContent = makeAllSongsClickable(show.sets[setName], jamEntries);
+        content += `<div style="margin-bottom: 0.75rem;"><strong>${setName}:</strong> ${processedContent}</div>`;
+      }
+    });
+  } else {
+    console.log('No sets found in show data');
+    content += `<div style="text-align: center; color: var(--muted-color); padding: 2rem;">No setlist data available for this show</div>`;
+  }
+  
+  // Add notes section if available
+  if (show.notes && show.notes.length > 0) {
+    const combinedNotes = show.notes.join('\n\n');
+    const formattedNotes = markdownToHtml(combinedNotes);
+    
+    content += `
+      <div style="margin-top: 2rem;">
+        <div style="color: var(--text-color); line-height: 1.8;">
+          ${formattedNotes}
+        </div>
+      </div>
+    `;
+  }
+  
+  content += `</div></div>`;
+  
+  document.getElementById('latest-setlist-container').innerHTML = content;
+  
+  // Setup tooltips and click handlers
+  setTimeout(() => {
+    let currentTooltip = null;
+    
+    console.log('Setting up clickable songs...');
+    console.log('Jam entries available:', jamEntries.length);
+    
+    // Set up ALL clickable songs
+    document.querySelectorAll('#latest-setlist-container .clickable-song').forEach((songElement, index) => {
+      const songName = songElement.getAttribute('data-song');
+      if (!songName) return;
+      
+      const isJamCharted = songElement.getAttribute('data-jam') === 'true';
+      const elementTiming = songElement.getAttribute('data-timing');
+      
+      // Apply basic styling
+      if (isJamCharted) {
+        songElement.style.color = 'var(--accent-color)';
+        songElement.style.cursor = 'pointer';
+      } else {
+        songElement.style.color = 'var(--text-color)';
+        songElement.style.cursor = 'pointer';
+      }
+      
+      // Click handler
+      songElement.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const cleanSongName = songName.trim();
+        
+        if (isJamCharted) {
+          switchPage('jams');
+          document.getElementById('search-input').value = cleanSongName;
+          renderFilteredJams();
+        }
+      });
+    });
+    
+    // Set up hover tooltips for jam-charted songs
+    const jamSongs = document.querySelectorAll('#latest-setlist-container .jam-song');
+    console.log(`Found ${jamSongs.length} jam-charted songs`);
+    
+    jamSongs.forEach((songElement, index) => {
+      const songName = songElement.getAttribute('data-song');
+      const elementTiming = songElement.getAttribute('data-timing');
+      const elementTimingNumber = elementTiming ? parseInt(elementTiming) : null;
+      
+      const possibleJamEntries = jamEntries.filter(jam => {
+        const jamSongClean = jam.song.replace(/\s+/g, ' ').trim();
+        const jamNorm = normalizeSongName(jamSongClean);
+        const currentNorm = normalizeSongName(songName);
+        return jamNorm === currentNorm;
+      });
+      
+      let bestJamEntry = null;
+      
+      if (possibleJamEntries.length > 0) {
+        if (possibleJamEntries.length === 1) {
+          bestJamEntry = possibleJamEntries[0];
+        } else if (elementTimingNumber) {
+          bestJamEntry = possibleJamEntries.find(jam => {
+            const jamTimingMatch = jam.timing.match(/(\d+):(\d+)/);
+            if (!jamTimingMatch) return false;
+            
+            const jamMinutes = parseInt(jamTimingMatch[1]);
+            const timingDiff = Math.abs(jamMinutes - elementTimingNumber);
+            return timingDiff <= 1;
+          });
+        }
+      }
+      
+      if (bestJamEntry) {
+        if (bestJamEntry.highlighted) {
+          songElement.style.fontWeight = 'bold';
+        }
+        
+        const timing = bestJamEntry.timing;
+        const notes = bestJamEntry.notes ? bestJamEntry.notes.replace(/<[^>]*>/g, '').trim() : '';
+        
+        songElement.addEventListener('mouseover', function(e) {
+          if (timing || notes) {
+            if (currentTooltip) {
+              currentTooltip.remove();
+            }
+            
+            currentTooltip = document.createElement('div');
+            currentTooltip.className = 'jam-song-tooltip';
+            
+            let tooltipContent = '';
+            if (timing && notes) {
+              tooltipContent = `
+                <div class="jam-song-tooltip-timing">${timing}</div>
+                <div class="jam-song-tooltip-notes">${notes}</div>
+              `;
+            } else if (timing) {
+              tooltipContent = `<div class="jam-song-tooltip-timing">${timing}</div>`;
+            } else if (notes) {
+              tooltipContent = `<div class="jam-song-tooltip-notes">${notes}</div>`;
+            }
+            
+            currentTooltip.innerHTML = tooltipContent;
+            document.body.appendChild(currentTooltip);
+            
+            const rect = this.getBoundingClientRect();
+            const tooltipHeight = currentTooltip.offsetHeight;
+            const tooltipWidth = currentTooltip.offsetWidth;
+            
+            let top = rect.top - tooltipHeight - 8;
+            let left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+            
+            if (top < 10) top = rect.bottom + 8;
+            if (left < 10) left = 10;
+            if (left + tooltipWidth > window.innerWidth - 10) {
+              left = window.innerWidth - tooltipWidth - 10;
+            }
+            
+            currentTooltip.style.top = top + 'px';
+            currentTooltip.style.left = left + 'px';
+            
+            setTimeout(() => {
+              if (currentTooltip) {
+                currentTooltip.classList.add('show');
+              }
+            }, 50);
+          }
+        });
+        
+        songElement.addEventListener('mouseout', function() {
+          if (currentTooltip) {
+            currentTooltip.remove();
+            currentTooltip = null;
+          }
+        });
+      }
+    });
+  }, 0);
+  
+  window.scrollTo(0, 0);
+}
+
+// Show latest setlist
+function showLatestSetlist() {
+  const allDates = Object.keys(dbShows)
+    .filter(d => d.match(/^\d{4}-\d{2}-\d{2}/))
+    .sort();
+  
+  if (allDates.length === 0) {
+    document.getElementById('latest-setlist-container').innerHTML = 
+      '<div style="text-align:center;padding:3rem;color:var(--muted-color);">No setlists found</div>';
+    return;
+  }
+  
+  const latestDate = allDates[allDates.length - 1];
+  showSetlistForDate(latestDate);
+}
+
+// Show random setlist
+function showRandomSetlist() {
+  const allDates = Object.keys(dbShows).filter(d => d.match(/^\d{4}-\d{2}-\d{2}/));
+  const randomDate = allDates[Math.floor(Math.random() * allDates.length)];
+  showSetlistForDate(randomDate);
+}
+// ============================================
+// EVENT HANDLERS
+// ============================================
+
+// Click handler for jam table (date links and filters)
+tableBody.addEventListener('click', e => {
+  let target = e.target;
+  
+  // Handle date clicks for setlist
+  if (target.classList.contains('date-link')) {
+    const date = target.getAttribute('data-date');
+    showSetlistForDate(date);
+    e.stopPropagation();
+    return;
+  }
+  
+  // Handle regular clickable filters for search
+  target = e.target.closest('.clickable-filter');
+  if(!target) return;
+  
+  // Remove any selected-row highlights
+  document.querySelectorAll('.selected-row').forEach(row => row.classList.remove('selected-row'));
+  
+  document.getElementById('search-input').value = target.textContent.trim();
+  renderFilteredJams();
+});
+
+// ============================================
+// PAGE SWITCHING
+// ============================================
+
+function switchPage(page) {
+  document.querySelectorAll('.page-tab').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.page-content').forEach(pane => pane.style.display = 'none');
+  
+  event.target.classList.add('active');
+  document.getElementById('page-' + page).style.display = 'block';
+  
+  // If switching to setlist page, show the latest setlist
+  if (page === 'setlist') {
+    showLatestSetlist();
+  }
+}
+
+// Reset to default page when header is clicked
+function resetToDefaultPage() {
+  document.getElementById("page-jams").style.display = "none";
+  document.getElementById("page-setlist").style.display = "block";
+
+  // Update tab button highlight
+  document.querySelectorAll(".page-tab").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".page-tab")[0].classList.add("active");
+  
+  showLatestSetlist();
+}
+
+// Make header title clickable
+const headerTitle = document.querySelector(".site-header h1");
+const headerEmojis = document.querySelector(".site-header p");
+
+[headerTitle, headerEmojis].forEach(el => {
+  if (el) {
+    el.style.cursor = "pointer";
+    el.addEventListener("click", resetToDefaultPage);
+  }
+});
+
+// ============================================
+// DATABASE LOADING
+// ============================================
+
+function processShowsDatabase() {
+  dbDates = Object.keys(dbShows)
+    .filter(d => d.match(/^\d{4}-\d{2}-\d{2}/))
+    .sort();
+  
+  console.log('Processed shows database:', dbDates.length, 'shows');
+}
+
+function loadShowsDatabase() {
+  console.log('Loading shows_database.json...');
+  fetch('shows_database.json')
+    .then(r => {
+      console.log('Shows database response:', r.status);
+      if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+      return r.json();
+    })
+    .then(data => {
+      console.log('Shows database loaded:', Object.keys(data).length, 'shows');
+      
+      // Clean the date keys
+      const cleanedData = {};
+      Object.keys(data).forEach(dateKey => {
+        const cleanDate = dateKey.split('/')[0];
+        
+        if (!cleanedData[cleanDate] || !dateKey.includes('/')) {
+          cleanedData[cleanDate] = data[dateKey];
+        }
+        
+        cleanedData[dateKey] = data[dateKey];
+      });
+      
+      dbShows = cleanedData;
+      processShowsDatabase();
+      loadJams();
+    })
+    .catch(err => {
+      console.error('Failed to load shows_database.json:', err);
+      document.getElementById('latest-setlist-container').innerHTML = 
+        '<div style="text-align:center;padding:3rem;color:var(--muted-color);">Failed to load shows database</div>';
+    });
+}
+
+// ============================================
+// INITIALIZE
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadShowsDatabase();
+});
+</script>
+</body>
+</html>

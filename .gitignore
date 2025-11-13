@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.DS_Store
+shows_database.json
+songs_database.json
+song_stats.html
