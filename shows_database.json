@@ -26,13 +26,31 @@
     "show_number": "3",
     "rating": "",
     "sets": {
-      "Set 1": "Robot Run (19) -> Never Break (18), Chance to Grow (28) -> Brainrot (6)"
+      "Set 1": "Robot Run (19) -> Never Break (18), **Chance to Grow** (28) -> Brainrot (6)"
     },
     "notes": [
-      "**"
+      "*This was the third show of the 2025 Fall Tour. This was a one set show opening for Dizgo.*"
     ],
     "source": "obsidian",
     "obsidian_file": "E:\\Obsidian Review Vault\\Reviews\\Squeaky Feet\\Setlists\\2025-10-16.md",
+    "url": ""
+  },
+  "2025-10-17": {
+    "date": "2025-10-17",
+    "venue": "King's Rook Club",
+    "city": "Erie",
+    "state": "PA",
+    "tour": "2025 Fall",
+    "show_number": "4",
+    "rating": "",
+    "sets": {
+      "Set 1": "Pantomime (21) -> Birds of Prey (5), Dar Bon (21), **Common Ground** (19), Breed (3), Tunnel Vision (18)"
+    },
+    "notes": [
+      "*This was the fourth show of the 2025 Fall Tour. This was a one set show opening for Dizgo.*\n\n*\"You just might know this next one... That song was written by our keyboard player, Brian.\"*"
+    ],
+    "source": "obsidian",
+    "obsidian_file": "E:\\Obsidian Review Vault\\Reviews\\Squeaky Feet\\Setlists\\2025-10-17.md",
     "url": ""
   }
 }

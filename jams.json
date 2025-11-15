@@ -1,6 +1,21 @@
 [
   {
     "date": "2025-10-16",
+    "song": "Chance to Grow",
+    "timing": "28:04",
+    "venue": "City Winery",
+    "highlighted": true,
+    "notes": "\nDeep funk speeds into dream-poppy alternative metal that swirls into a spacey jungle on a riverboat, passing random wooden posts nestled in trees and brush.\n"
+  },
+  {
+    "date": "2025-10-16",
+    "song": "Never Break",
+    "timing": "18:08",
+    "venue": "City Winery",
+    "notes": "\nTravels through a funky desert into a Souq maze.\n"
+  },
+  {
+    "date": "2025-10-16",
     "song": "Robot Run",
     "timing": "19:12",
     "venue": "City Winery",
@@ -12,7 +27,21 @@
     "timing": "18:46",
     "venue": "King's Rook Club",
     "highlighted": true,
-    "notes": "\nSwings into a twangy, dreamy California beach at sunset and peaks beautifully.\n"
+    "notes": "\nCliff diving from plane to plane on a sun-soaked California beach.\n"
+  },
+  {
+    "date": "2025-10-17",
+    "song": "Dar Bon",
+    "timing": "21:20",
+    "venue": "King's Rook Club",
+    "notes": "\nFun, dancey grooving gets psychedelically anxious.\n"
+  },
+  {
+    "date": "2025-10-17",
+    "song": "Pantomime",
+    "timing": "21:52",
+    "venue": "King's Rook Club",
+    "notes": "\nSlick grooving finds itself in a fiery monster truck rally that briefly calms before collectively moving into a gradual, patient buildup that escalates fiercely until the Birds of Prey come crashing down.\n"
   },
   {
     "date": "2025-10-17",
